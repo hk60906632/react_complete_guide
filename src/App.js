@@ -12,10 +12,10 @@ class App extends Component {
     otherState: 'testing'
   }
 
-  switchNameHandler = () => {
+  switchNameHandler = (newName) => {
     this.setState( {
       persons: [
-        { name: 'Maximum', height: '10ft 9'},
+        { name: newName, height: '10ft 9'},
         { name: 'Manuium', height: '5ft 4'},
         { name: 'Stephanie2', age: '12ft 2'}
       ]
@@ -23,12 +23,41 @@ class App extends Component {
     )
   }
 
+  nameChangeHandler = (event) => {
+    this.setState( {
+      persons: [
+        { name: 'Max', height: '10ft 9'},
+        { name: event.target.value, height: '5ft 4'},
+        { name: 'Stephanie2', age: '12ft 2'}
+      ]
+    }
+    )
+  }
+
   render() {
+    const style = {
+      backgroundColor: 'white', 
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      boxShadow: '5px 5px 5px black',
+      cursor: 'pointer'
+    };
+
     return (
       <div className="App">
-        <button onClick={this.switchNameHandler}>Switch Name</button>
-        <Person name={this.state.persons[0].name} height={this.state.persons[0].height}>testing 1</Person>
-        <Person name={this.state.persons[1].name} height={this.state.persons[1].height}>testing 2</Person>
+        <button 
+          style={style}
+          onClick={() => this.switchNameHandler('Maximum')}>Switch Name</button>
+        <Person 
+          name={this.state.persons[0].name} 
+          height={this.state.persons[0].height}
+          //use bind more often, arrow function syntax is inefficient cause react keeps re-rendering
+          click={this.switchNameHandler.bind(this, 'Clicking Name')}>testing 1</Person>
+        <Person 
+          name={this.state.persons[1].name} 
+          height={this.state.persons[1].height}
+          changed={this.nameChangeHandler}>testing 2</Person>
       </div>
     );
   }    
