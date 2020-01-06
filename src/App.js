@@ -9,7 +9,8 @@ class App extends Component {
       { name: 'Manu', height: '5ft 4'},
       { name: 'Stephanie', age: '12ft 2'}
     ],
-    otherState: 'testing'
+    otherState: 'testing',
+    showPersons: false
   }
 
   switchNameHandler = (newName) => {
@@ -34,6 +35,11 @@ class App extends Component {
     )
   }
 
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  }
+
   render() {
     const style = {
       backgroundColor: 'white', 
@@ -44,20 +50,51 @@ class App extends Component {
       cursor: 'pointer'
     };
 
+    let persons = null;
+
+    if (this.state.showPersons){
+      persons = (
+        <div>
+          {this.state.persons.map(person => {
+              return <Person
+                name={person.name} height={person.age} />
+          })}
+
+          {/* <Person 
+            name={this.state.persons[0].name} 
+            height={this.state.persons[0].height}
+            //use bind more often, arrow function syntax is inefficient cause react keeps re-rendering
+            click={this.switchNameHandler.bind(this, 'Clicking Name')}>testing 1</Person>
+          <Person 
+            name={this.state.persons[1].name} 
+            height={this.state.persons[1].height}
+            changed={this.nameChangeHandler}>testing 2</Person> */}
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <button 
           style={style}
-          onClick={() => this.switchNameHandler('Maximum')}>Switch Name</button>
-        <Person 
-          name={this.state.persons[0].name} 
-          height={this.state.persons[0].height}
-          //use bind more often, arrow function syntax is inefficient cause react keeps re-rendering
-          click={this.switchNameHandler.bind(this, 'Clicking Name')}>testing 1</Person>
-        <Person 
-          name={this.state.persons[1].name} 
-          height={this.state.persons[1].height}
-          changed={this.nameChangeHandler}>testing 2</Person>
+          /*onClick={() => this.switchNameHandler('Maximum')}*/
+          onClick={this.togglePersonsHandler}>Switch Name</button>
+          {persons}
+
+        {/* { this.state.showPersons === true ?
+          <div>
+            <Person 
+              name={this.state.persons[0].name} 
+              height={this.state.persons[0].height}
+              //use bind more often, arrow function syntax is inefficient cause react keeps re-rendering
+              click={this.switchNameHandler.bind(this, 'Clicking Name')}>testing 1</Person>
+            <Person 
+              name={this.state.persons[1].name} 
+              height={this.state.persons[1].height}
+              changed={this.nameChangeHandler}>testing 2</Person>
+          </div> : null
+        } */}
+        
       </div>
     );
   }    
