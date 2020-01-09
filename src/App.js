@@ -1,13 +1,14 @@
 import React, { Component, useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import person from './Person/Person';
 
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', height: '10ft 9'},
-      { name: 'Manu', height: '5ft 4'},
-      { name: 'Stephanie', age: '12ft 2'}
+      {id:"1", name: 'Max', height: '10ft 9'},
+      {id:"2", name: 'Manu', height: '5ft 4'},
+      {id:"3", name: 'Stephanie', age: '12ft 2'}
     ],
     otherState: 'testing',
     showPersons: false
@@ -16,27 +17,51 @@ class App extends Component {
   switchNameHandler = (newName) => {
     this.setState( {
       persons: [
-        { name: newName, height: '10ft 9'},
-        { name: 'Manuium', height: '5ft 4'},
-        { name: 'Stephanie2', age: '12ft 2'}
+        {name: newName, height: '10ft 9'},
+        {name: 'Manuium', height: '5ft 4'},
+        {name: 'Stephanie2', age: '12ft 2'}
       ]
     }
     )
   }
 
-  nameChangeHandler = (event) => {
-    this.setState( {
-      persons: [
-        { name: 'Max', height: '10ft 9'},
-        { name: event.target.value, height: '5ft 4'},
-        { name: 'Stephanie2', age: '12ft 2'}
-      ]
-    }
-    )
+  nameChangeHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    //bad practice to directly reach out to the array itself, pass by reference
+    //const person = this.state.persons[personIndex];
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    //alternative 
+    //const person = Object.assign({}, this.state.persons[personIndex]);
+
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+    this.setState({persons: persons});
+
+    // this.setState( {
+    //   persons: [
+    //     {name: 'Max', height: '10ft 9'},
+    //     {name: event.target.value, height: '5ft 4'},
+    //     {name: 'Stephanie2', age: '12ft 2'}
+    //   ]
+    // }
+    // );
   }
 
   deletePersonHandler = (personIndex) => {
-    const persons = this.state.persons;
+
+    //js is pass by reference, so slice() helps to create a copy of the array to manipulate
+    //const persons = this.state.persons.slice();
+
+    //... spreads out the elements in this array into a list of elements, make a copy of the array
+    const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({persons: persons})
   }
@@ -65,7 +90,9 @@ class App extends Component {
               return <Person
                 name={test.name} 
                 height={test.age}
-                clicking={() => this.deletePersonHandler(index)} />
+                clicking={() => this.deletePersonHandler(index)}
+                key={person.id}
+                changed={(event) => this.nameChangeHandler(event, test.id)} />
           })}
 
           {/* <Person 
