@@ -58,6 +58,7 @@ class App extends Component {
   deletePersonHandler = (personIndex) => {
 
     //js is pass by reference, so slice() helps to create a copy of the array to manipulate
+
     //const persons = this.state.persons.slice();
 
     //... spreads out the elements in this array into a list of elements, make a copy of the array
@@ -73,7 +74,8 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'white', 
+      backgroundColor: 'green',
+      color: 'white', 
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
@@ -94,7 +96,6 @@ class App extends Component {
                 key={person.id}
                 changed={(event) => this.nameChangeHandler(event, test.id)} />
           })}
-
           {/* <Person 
             name={this.state.persons[0].name} 
             height={this.state.persons[0].height}
@@ -106,10 +107,28 @@ class App extends Component {
             changed={this.nameChangeHandler}>testing 2</Person> */}
         </div>
       );
+
+      style.backgroundColor = 'red';
+    }
+
+    let classes = [];
+
+    if (this.state.persons.length < 3){
+      classes.push('Blue');
+    } 
+    
+    if (this.state.persons.length < 2){
+      classes.push('Bold');
+    }
+
+    if (this.state.persons.length === 0){ 
+      classes.splice(classes.indexOf('Blue'), 1);
+      classes.push('Red');
     }
 
     return (
       <div className="App">
+        <p className={classes.join(' ')}> Dynamically changing class of a tag </p>
         <button 
           style={style}
           /*onClick={() => this.switchNameHandler('Maximum')}*/
