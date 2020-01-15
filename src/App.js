@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react';
 import './App.css';
+import Radium, {StyleRoot} from 'radium';
 import Person from './Person/Person';
 import person from './Person/Person';
 
@@ -80,7 +81,12 @@ class App extends Component {
       border: '1px solid blue',
       padding: '8px',
       boxShadow: '5px 5px 5px black',
-      cursor: 'pointer'
+      cursor: 'pointer',
+
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null;
@@ -109,6 +115,11 @@ class App extends Component {
       );
 
       style.backgroundColor = 'red';
+
+      style[':hover'] = {
+        backgroundColor: 'orange',
+        color: 'black'
+      };
     }
 
     let classes = [];
@@ -127,6 +138,7 @@ class App extends Component {
     }
 
     return (
+      <StyleRoot>
       <div className="App">
         <p className={classes.join(' ')}> Dynamically changing class of a tag </p>
         <button 
@@ -150,9 +162,23 @@ class App extends Component {
         } */}
         
       </div>
+      </StyleRoot>
     );
   }    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const AppHook = props => {
   const [personsState, setPersonsState] = useState({
@@ -189,5 +215,5 @@ const AppHook = props => {
 
 
 
-export default App;
+export default Radium(App);
 export {AppHook};
