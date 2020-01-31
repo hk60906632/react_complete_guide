@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import './App.css';
+import classes from './App.module.css';
 import styled from 'styled-components';
 import Radium, {StyleRoot} from 'radium';
 import Person from '../Components/Persons/Person/Person';
@@ -146,28 +146,29 @@ class App extends Component {
       };
     }
 
-    let classes = [];
+    let assignedClasses = [];
 
     if (this.state.persons.length < 3){
-      classes.push('Blue');
+      assignedClasses.push(classes.Blue);
     } 
     
     if (this.state.persons.length < 2){
-      classes.push('Bold');
+      assignedClasses.push(classes.Bold);
     }
 
     if (this.state.persons.length === 0){ 
-      classes.splice(classes.indexOf('Blue'), 1);
-      classes.push('Red');
+      assignedClasses.splice(assignedClasses.indexOf(classes.Blue), 1);
+      assignedClasses.push(classes.Red);
     }
 
     return (
-      <StyleRoot>
-      <div className="App">
-        <p className={classes.join(' ')}> Dynamically changing class of a tag </p>
+      <div className={classes.App}>
+        <p className={assignedClasses.join(' ')}> Dynamically changing class of a tag </p>
 
         <button 
-          style={style}
+          //style={style}
+          className={classes.Button}
+
           //onClick={() => this.switchNameHandler('Maximum')}
           onClick={this.togglePersonsHandler}>Switch Name</button>
 
@@ -189,7 +190,6 @@ class App extends Component {
         } */}
         
       </div>
-      </StyleRoot>
     );
   }    
 }
