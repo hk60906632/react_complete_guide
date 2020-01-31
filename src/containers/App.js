@@ -1,8 +1,25 @@
 import React, { Component, useState } from 'react';
 import './App.css';
+import styled from 'styled-components';
 import Radium, {StyleRoot} from 'radium';
-import Person from './Person/Person';
-import person from './Person/Person';
+import Person from '../Components/Persons/Person/Person';
+import person from '../Components/Persons/Person/Person';
+import Person_s from '../Components/Persons/Persons'; 
+
+const StyledButton = styled.button`
+    background-color: ${props => props.alt ? 'red' : 'green'};
+    color: white; 
+    font: inherit;
+    border: 1px solid blue;
+    padding: 8px;
+    boxShadow: 5px 5px 5px black;
+    cursor: pointer;
+
+    &:hover {
+      background-color: ${props => props.alt ? 'orange' : 'lightgreen'};
+      color: black
+    }
+`;
 
 class App extends Component {
   state = {
@@ -94,14 +111,21 @@ class App extends Component {
     if (this.state.showPersons){
       persons = (
         <div>
+          <Person_s persons = {this.state.persons} 
+                    clickDelete = {this.deletePersonHandler} 
+                    change = {this.nameChangeHandler}></Person_s>
+          
+          {/* 
+          ##############move to Persons.js as a component################# 
           {this.state.persons.map((test, index) => {
               return <Person
                 name={test.name} 
                 height={test.age}
                 clicking={() => this.deletePersonHandler(index)}
-                key={person.id}
+                key={test.id}
                 changed={(event) => this.nameChangeHandler(event, test.id)} />
-          })}
+          })} */}
+
           {/* <Person 
             name={this.state.persons[0].name} 
             height={this.state.persons[0].height}
@@ -141,10 +165,13 @@ class App extends Component {
       <StyleRoot>
       <div className="App">
         <p className={classes.join(' ')}> Dynamically changing class of a tag </p>
+
         <button 
           style={style}
-          /*onClick={() => this.switchNameHandler('Maximum')}*/
+          //onClick={() => this.switchNameHandler('Maximum')}
           onClick={this.togglePersonsHandler}>Switch Name</button>
+
+          {/* <StyledButton alt={this.state.showPersons} onClick={this.togglePersonsHandler}>Switch Name</StyledButton> */}
           {persons}
 
         {/* { this.state.showPersons === true ?
