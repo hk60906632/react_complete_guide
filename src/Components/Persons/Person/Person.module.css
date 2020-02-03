@@ -9,3 +9,9 @@
     display: inline-block;
     margin-left: 5px;
 }
+
+@media (min-width: 500px){
+    .Person{
+        width: 450px;
+    }    
+}

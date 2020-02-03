@@ -1,29 +1,36 @@
 import React from 'react';
-import './Cockpit.css';
+import Classes from './Cockpit.module.css';
 
 const cockpit = (props) => {
     let classes = [];
+    let btnClass = '';
 
     if (props.persons.length < 3){
-      classes.push('Blue');
+      classes.push(Classes.Blue);
     } 
     
     if (props.persons.length < 2){
-      classes.push('Bold');
+      classes.push(Classes.Bold);
     }
 
     if (props.persons.length === 0){ 
-      classes.splice(classes.indexOf('Blue'), 1);
-      classes.push('Red');
+      classes.splice(classes.indexOf(Classes.Blue), 1);
+      classes.push(Classes.Red);
+    }
+
+    if (props.showPersons){
+        btnClass = Classes.Red;
     }
 
     return (
-        <div className="Cockpit">
+        <div className={Classes.Cockpit}>
+            <p>{props.title}</p>
             <p className={classes.join(' ')}> Dynamically changing class of a tag </p>
             <button 
-                style={style}
-                onClick={this.togglePersonsHandler}>Switch Name</button>  
-            {persons}    
+                className={btnClass}
+                onClick={props.toggleHandler}>Switch Name</button>    
         </div>
     );
 };
+
+export default cockpit;

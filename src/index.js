@@ -5,7 +5,7 @@ import App from './containers/App';
 import {AppHook} from './containers/App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App appTitle="Person Manager" />, document.getElementById('root'));
 //ReactDOM.render(<AppHook />, document.getElementById('root2'));
 
 
