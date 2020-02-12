@@ -32,7 +32,12 @@ class App extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     console.log('[App.js] shouldComponentUpdate');
-    return true;
+    if (nextProps.persons !== this.props.persons || nextState.showPersons) {
+      return true;
+    } else{
+      return false;
+    }
+    //return true;
   }
 
   componentDidUpdate() {
