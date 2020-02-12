@@ -31,13 +31,7 @@ class App extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('[App.js] shouldComponentUpdate');
-    if (nextProps.persons !== this.props.persons || nextState.showPersons) {
-      return true;
-    } else{
-      return false;
-    }
-    //return true;
+    return true;
   }
 
   componentDidUpdate() {

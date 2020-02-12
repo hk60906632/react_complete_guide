@@ -3,6 +3,15 @@ import React, { Component } from 'react';
 import Person from './Person/Person';
 
 class Persons extends Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('[App.js] shouldComponentUpdate');
+        if (nextProps.persons !== this.props.persons) { //check the prop persons
+          return true;
+        } else{
+          return false;
+        }
+      }
+
     render() {
         console.log('[Persons.js] rendering');
         return (
