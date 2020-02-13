@@ -1,16 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 
 import Person from './Person/Person';
 
-class Persons extends Component {
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('[App.js] shouldComponentUpdate');
-        if (nextProps.persons !== this.props.persons) { //check the prop persons
-          return true;
-        } else{
-          return false;
-        }
-      }
+class Persons extends PureComponent {
+
+    //this checks all the props changes, but no need to use Component with should ComponentUpdate
+
+    //can use PureComponent instead,
+    //PureComponent will check for any changes in any prop of that component
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('[App.js] shouldComponentUpdate');
+    //     if (nextProps.persons !== this.props.persons || 
+    //         nextProps.change !== this.props.change || 
+    //         nextProps.clickDelete !== this.props.clickDelete) { //check the prop persons
+    //       return true;
+    //     } else{
+    //       return false;
+    //     }
+    // }
 
     render() {
         console.log('[Persons.js] rendering');
@@ -21,7 +29,7 @@ class Persons extends Component {
                   height={test.age}
                   clicking={() => this.props.clickDelete(index)}
                   key={test.id}
-                changed={(event) => this.props.change(event, test.id)} /> 
+                  changed={(event) => this.props.change(event, test.id)} /> 
                 })
         );
     }

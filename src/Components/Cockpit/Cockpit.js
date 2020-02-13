@@ -26,15 +26,15 @@ const Cockpit = (props) => {
     let classes = [];
     let btnClass = '';
 
-    if (props.persons.length < 3){
+    if (props.personsLength < 3){
       classes.push(Classes.Blue);
     } 
     
-    if (props.persons.length < 2){
+    if (props.personsLength < 2){
       classes.push(Classes.Bold);
     }
 
-    if (props.persons.length === 0){ 
+    if (props.personsLength === 0){ 
       classes.splice(classes.indexOf(Classes.Blue), 1);
       classes.push(Classes.Red);
     }
@@ -54,4 +54,7 @@ const Cockpit = (props) => {
     );
 };
 
-export default Cockpit;
+export default React.memo(Cockpit);  //memorization --> this will store a snapshot of this component and only
+                                     //re-render if its input changes
+                                     //if its inputs do not change and some parent component wants to update this cockpit component,
+                                     //React will give back that stored component 
