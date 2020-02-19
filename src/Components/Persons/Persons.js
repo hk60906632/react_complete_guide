@@ -20,6 +20,10 @@ class Persons extends PureComponent {
     //     }
     // }
 
+    componentWillUnmount() {
+        console.log('[Persons.js] componentWillUnmount')
+    }
+
     render() {
         console.log('[Persons.js] rendering');
         return (

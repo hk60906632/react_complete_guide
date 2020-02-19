@@ -1,9 +1,10 @@
 import React, { Component, useState } from 'react';
 import classes from './App.module.css';
 import Person from '../Components/Persons/Person/Person';
-import Person_s from '../Components/Persons/Persons'; 
+import PersonS from '../Components/Persons/Persons'; 
 import Cockpit from '../Components/Cockpit/Cockpit';
-import WithClass from '../hoc/WithClass';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Auxiliary'
 
 class App extends Component {
 
@@ -19,7 +20,8 @@ class App extends Component {
       {id:"3", name: 'Stephanie', age: '12ft 2'}
     ],
     otherState: 'testing',
-    showPersons: false
+    showPersons: false,
+    changeCounter: 0
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -62,7 +64,17 @@ class App extends Component {
     person.name = event.target.value;
     const persons = [...this.state.persons];
     persons[personIndex] = person;
-    this.setState({persons: persons});
+
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1
+      };
+    });
+
+    //setState doesn't always execute and finish immediately in react hook cycle, this.state cannot gaurentee to be the latest state
+    //Better way for state updates depend on prvious state
+    //setState can pass js object or a function
   }
 
   deletePersonHandler = (personIndex) => {
@@ -80,22 +92,23 @@ class App extends Component {
     let persons = null;
 
     if (this.state.showPersons){
-      persons = <Person_s persons = {this.state.persons} 
+      persons = <PersonS persons = {this.state.persons} 
                   clickDelete = {this.deletePersonHandler} 
-                  change = {this.nameChangeHandler}></Person_s>;
+                  change = {this.nameChangeHandler}></PersonS>;
 
     }
 
     return (
-      <WithClass classes={classes.App}>
+      //<WithClass classes={classes.App}>
+      <Aux>
           <Cockpit 
               title = {this.props.appTitle}
               personsLength={this.state.persons.length} 
               showPersons={this.state.showPersons} 
               toggleHandler={this.togglePersonsHandler}/>
           {persons}
-        
-      </WithClass>
+      </Aux>
+      //</WithClass>
     );
   }    
 }
@@ -148,5 +161,6 @@ const AppHook = props => {
 
 
 
-export default App;
+export default withClass(App, classes.App); //withClass is just a function not a component, no Prop use, first arguement is element to be wrap,
+                              //second argument is the class name
 export {AppHook};

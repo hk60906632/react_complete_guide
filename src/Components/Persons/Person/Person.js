@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
 import Aux from '../../../hoc/Auxiliary'
-
+import withClass from '../../../hoc/withClass'
 import classes from './Person.module.css'
 
 class Person extends Component {
@@ -10,12 +10,14 @@ class Person extends Component {
         return (
             //Aux -> self-create higher order component Auxiliary
             //Fragment -> React 16.2 built in aux component 
-            <Fragment>
+            //<Fragment>
+            <Aux>
                 <p onClick={this.props.clicking} >I'm {this.props.name} and my height is {this.props.height} </p>
                 <p>My age is {Math.floor(Math.random() * 50)}</p>
                 <p>{this.props.children}</p>
-                <input type="text" onChange={this.props.changed} value={this.props.name}></input>    
-            </Fragment>
+                <input type="text" onChange={this.props.changed} value={this.props.name}></input>
+            </Aux>    
+            //</Fragment>
             //<div className={classes.Person}>
                 
             //</div>
@@ -38,4 +40,4 @@ class Person extends Component {
 // };
 
 //export default person;
-export default Person;
+export default withClass(Person, classes.Person);
