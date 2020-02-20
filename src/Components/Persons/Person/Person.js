@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 import Aux from '../../../hoc/Auxiliary'
 import withClass from '../../../hoc/withClass'
@@ -27,6 +28,16 @@ class Person extends Component {
         );
     }
 }
+
+
+//check props type, act like assertion
+Person.propTypes = {
+    clicking: PropTypes.func,
+    name: PropTypes.string,
+    height: PropTypes.string,
+    changed: PropTypes.func
+} ; 
+
 
 // const person = ( props ) => {
 //     return ( 
