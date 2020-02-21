@@ -4,7 +4,8 @@ import Person from '../Components/Persons/Person/Person';
 import PersonS from '../Components/Persons/Persons'; 
 import Cockpit from '../Components/Cockpit/Cockpit';
 import withClass from '../hoc/withClass';
-import Aux from '../hoc/Auxiliary'
+import Aux from '../hoc/Auxiliary';
+import AuthContext from '../context/auth-context';
 
 class App extends Component {
 
@@ -21,7 +22,8 @@ class App extends Component {
     ],
     otherState: 'testing',
     showPersons: false,
-    changeCounter: 0
+    changeCounter: 0,
+    authenticated: false
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -88,25 +90,43 @@ class App extends Component {
     this.setState({showPersons: !doesShow});
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+  }
+
   render() {
     let persons = null;
 
     if (this.state.showPersons){
       persons = <PersonS persons = {this.state.persons} 
                   clickDelete = {this.deletePersonHandler} 
-                  change = {this.nameChangeHandler}></PersonS>;
+                  change = {this.nameChangeHandler}
+                  isAuthenticated={this.state.authenticated}></PersonS>;
 
     }
 
     return (
       //<WithClass classes={classes.App}>
+
+      //changing data in Contex will not re-render, only changing state or property will 
+
+      //here still managing the authentication status in the state of this component
+      //the current state is passing as a value to the authContext
+      //this effectively is a prop of the authContext provider
+      //this will update whenever this state update
       <Aux>
+        <AuthContext.Provider value={{
+          authenticated: this.state.authenticated, 
+          login: this.loginHandler}}> 
+
           <Cockpit 
               title = {this.props.appTitle}
               personsLength={this.state.persons.length} 
               showPersons={this.state.showPersons} 
-              toggleHandler={this.togglePersonsHandler}/>
+              toggleHandler={this.togglePersonsHandler}
+              login={this.loginHandler}/>
           {persons}
+          </AuthContext.Provider>
       </Aux>
       //</WithClass>
     );

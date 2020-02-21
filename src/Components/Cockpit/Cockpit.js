@@ -1,24 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Classes from './Cockpit.module.css';
 
 const Cockpit = (props) => {
+
+    const toggleBtnRef = useRef(null);
+    
 
     //useEffect() combine componentDidUpdate() and componentDidMount(), called everytime re-render Cockpit, any update cycle
     //can be use for sending http request
 
     useEffect(() => {
+        
+        toggleBtnRef.current.click(); //call this after the JSX code was passed and tendered for the first time 
+
         console.log('[Cockpit.js] *initial* useEffect');
     }, []); //[] pass in empty array , the useEffect will only run at the start and it cannot re-run, act as ###componentDidMount()###
 
     useEffect(() => {
         console.log('[Cockpit.js] useEffect');
+
         //mimick http request...
-        const timer = setTimeout(() => {
-            alert('Saved data to cloud!');
-        }, 1000);
+
+        // const timer = setTimeout(() => {
+        //     alert('Saved data to cloud!');
+        // }, 1000);
+
         return () => {
             console.log('[Cockpit.js] cleanup work in useEffect'); //return act like componentWillUnmount() , call when a component being unmount or destory
-            clearTimeout(timer); //if Cockpit is unmount, this timer will be remove 
+            //clearTimeout(timer); //if Cockpit is unmount, this timer will be remove 
         };
     }, [props.persons]); //only call useEffect when state -> persons have changes,
     
@@ -47,9 +56,11 @@ const Cockpit = (props) => {
         <div className={Classes.Cockpit}>
             <p>{props.title}</p>
             <p className={classes.join(' ')}> Dynamically changing class of a tag </p>
-            <button 
+            <button
+                ref={toggleBtnRef}
                 className={btnClass}
-                onClick={props.toggleHandler}>Switch Name</button>    
+                onClick={props.toggleHandler}>Switch Name</button> 
+            <button onClick={props.login}>Log In </button>   
         </div>
     );
 };

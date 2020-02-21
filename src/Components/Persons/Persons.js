@@ -1,6 +1,7 @@
 import React, { Component, PureComponent } from 'react';
 
 import Person from './Person/Person';
+import AuthContext from '../../context/auth-context';
 
 class Persons extends PureComponent {
 
@@ -26,15 +27,19 @@ class Persons extends PureComponent {
 
     render() {
         console.log('[Persons.js] rendering');
-        return (
-            this.props.persons.map((test, index) => {
-                return <Person
-                  name={test.name} 
-                  height={test.age}
-                  clicking={() => this.props.clickDelete(index)}
-                  key={test.id}
-                  changed={(event) => this.props.change(event, test.id)} /> 
-                })
+        return ( 
+            <AuthContext.Consumer> {
+                this.props.persons.map((test, index) => {
+                    return <Person
+                    name={test.name} 
+                    height={test.age}
+                    clicking={() => this.props.clickDelete(index)}
+                    key={test.id}
+                    changed={(event) => this.props.change(event, test.id)}
+                    isAuth = {this.props.isAuthenticated} /> 
+                    })
+                }
+            </AuthContext.Consumer>
         );
     }
 }
